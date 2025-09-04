@@ -1,0 +1,54 @@
+MIAPP - Sistema simple de Registro de Productos (XAMPP + MySQL)
+===============================================================
+
+Requisitos
+----------
+- XAMPP (Apache 2.4.58 y MySQL 15.1) instalado.
+- PHP 8.2.12 (incluido en XAMPP).
+- Navegador web.
+
+Instalación (paso a paso)
+-------------------------
+1) Inicia XAMPP Control Panel y enciende **Apache** y **MySQL**.
+
+2) Abre **phpMyAdmin** en http://localhost/phpmyadmin
+   - Crea la base de datos importando el archivo `database.sql`:
+     * Clic en "Importar" -> Selecciona `database.sql` -> Ejecutar.
+     (Creará la BD `miapp` y las tablas con datos de ejemplo).
+
+3) Copia la carpeta `miapp` (esta carpeta) dentro de:
+   - Windows: `C:\xampp\htdocs\`
+   - macOS: `/Applications/XAMPP/htdocs/`
+   - Linux: `/opt/lampp/htdocs/`
+
+4) Verifica credenciales de MySQL en `conexion.php`:
+   - Usuario: root
+   - Password: (vacío por defecto en XAMPP). Si usas otra clave, cámbiala.
+
+5) Abre en tu navegador:
+   http://localhost/miapp/index.php
+
+Uso
+---
+- Completa los campos del formulario.
+- Las listas de **Bodega**, **Sucursal** y **Moneda** se cargan dinámicamente desde MySQL.
+- El botón "Guardar Producto" valida con JavaScript y envía por AJAX (Fetch) a `guardar.php`.
+- Si el **código** ya existe, verás el mensaje: "El código del producto ya está registrado".
+- Si todo está correcto, verás: "Producto guardado con éxito."
+
+Notas
+-----
+- Validaciones implementadas según el enunciado:
+  * Código: obligatorio, regex (letras y números), 5..15 caracteres, unicidad en DB.
+  * Nombre: obligatorio, 2..50 caracteres.
+  * Bodega / Sucursal / Moneda: primera opción vacía; obligatorias.
+  * Precio: obligatorio, número positivo con hasta 2 decimales (regex).
+  * Materiales: al menos dos checkboxes.
+  * Descripción: obligatoria, 10..1000 caracteres.
+- PHP utiliza **mysqli** con **sentencias preparadas**.
+
+Problemas comunes
+-----------------
+- "Error de conexión a MySQL": ajusta usuario/clave/host en `conexion.php`.
+- Página en blanco o error 500: revisa el "Log" de Apache en XAMPP y habilita `display_errors` si es necesario.
+- No aparecen bodegas/monedas: asegúrate de haber importado `database.sql`.
